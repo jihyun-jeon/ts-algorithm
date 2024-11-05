@@ -6,6 +6,7 @@
       "type": "node",
       "request": "launch",
       "program": "${workspaceRoot}/node_modules/.bin/tsx",
+      "runtimeExecutable":"/Users/jihyun/.nvm",
       "args": [
         "${relativeFile}"
       ],
