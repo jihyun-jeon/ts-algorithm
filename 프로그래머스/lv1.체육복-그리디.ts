@@ -20,17 +20,17 @@ function solution(n: number, lost: Array<number>, reserve: Array<number>) {
   }
 
   newLost.sort();
-  reserve.sort();
+
+  const reserveSet = new Set(reserve);
 
   // 체육복 분배
   for (let l of newLost) {
-    const leftIdx = reserve.findIndex((r) => r === l - 1);
-    const rightIdx = reserve.findIndex((r) => r === l + 1);
-
-    if (leftIdx > -1) {
-      reserve.splice(leftIdx, 1);
-    } else if (rightIdx > -1) {
-      reserve.splice(rightIdx, 1);
+    const left = l - 1;
+    const right = l + 1;
+    if (reserveSet.has(left)) {
+      reserveSet.delete(left);
+    } else if (reserveSet.has(right)) {
+      reserveSet.delete(right);
     } else {
       answer--;
     }
@@ -53,12 +53,19 @@ function solution2(n: number, lost: Array<number>, reserve: Array<number>) {
 
   // 체육복 분배
   for (let i = 1; i <= n; i++) {
-    if (students[i] === 2 && students[i - 1] === 0) {
-      students[i - 1]++;
-      students[i]--;
-    } else if (students[i] === 2 && students[i + 1] === 0) {
-      students[i + 1]++;
-      students[i]--;
+    if (students[i] > 0) {
+      continue;
+    }
+
+    if (students[i - 1] > 1) {
+      students[i - 1] -= 1;
+      students[i] += 1;
+      continue;
+    }
+
+    if (students[i + 1] > 1) {
+      students[i + 1] -= 1;
+      students[i] += 1;
     }
   }
 
