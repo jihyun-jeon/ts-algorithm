@@ -5,18 +5,21 @@
 function solution(num: number) {
   let result = 0;
 
-  let geun = Math.floor(Math.sqrt(num));
+  let sqrtValue = Math.floor(Math.sqrt(num));
 
-  while (geun > 0) {
-    const yaksu = num / geun;
-    if (yaksu % 1 === 0) {
-      result += yaksu;
-      if (yaksu !== geun) {
-        result += geun;
+  while (sqrtValue > 0) {
+    const dividedBySqrt = num / sqrtValue;
+    if (Number.isInteger(dividedBySqrt)) {
+      result += dividedBySqrt;
+      if (dividedBySqrt !== sqrtValue) {
+        result += sqrtValue;
       }
     }
-    geun -= 1;
+    sqrtValue -= 1;
   }
 
   return result;
 }
+
+// console.log(solution(12)); // 28
+// console.log(solution(5)); // 6

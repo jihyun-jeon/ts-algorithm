@@ -16,12 +16,11 @@ function solution(progresses: Array<number>, speeds: Array<number>) {
     if (max < daysLeft[i]) {
       max = daysLeft[i];
       count = 1;
-      result.push(count);
     } else {
       count += 1;
       result.pop();
-      result.push(count);
     }
+    result.push(count);
   }
 
   return result;
