@@ -78,6 +78,42 @@ function solution2(n: number, lost: Array<number>, reserve: Array<number>) {
   return answer;
 }
 
+/**
+ * 24.11.13
+ * <멘토링 후 개선>
+ * 개선 포인트
+ * 1.lost,reserve 학생을 하나의 "배열"로 가공 : 학생은 순서가 있기 때문에 인덱스 활용
+ * 2. 0인 애들이 양옆에서 받아오는 식으로 수정 : 0인 애가 for문 돈 후, 0인 애들의 상태가 확정될 것이 보장됨.
+ */
+function solution3(n: number, lost: Array<number>, reserve: Array<number>) {
+  let answer = 0;
+
+  const students = new Array(n).fill(1);
+
+  lost.forEach((l) => (students[l - 1] -= 1));
+  reserve.forEach((r) => (students[r - 1] += 1));
+
+  for (let i = 0; i < n; i++) {
+    const isLost = students[i] === 0;
+    const left = i - 1;
+    const right = i - 1;
+
+    if (isLost && students[left] > 1) {
+      students[left]--;
+      students[i]++;
+    } else if (isLost && students[right] > 1) {
+      students[right]--;
+      students[i]++;
+    }
+
+    if (students[i] >= 1) {
+      answer++;
+    }
+  }
+
+  return answer;
+}
+
 // console.log(solution(5, [2, 4], [1, 3, 5])); //5
 // console.log(solution(5, [2, 4], [3])); // 4
 // console.log(solution(3, [3], [1])); // 2
