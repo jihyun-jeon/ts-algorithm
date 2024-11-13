@@ -5,20 +5,27 @@
 function solution(num: number) {
   let result = 0;
 
-  let sqrtValue = Math.floor(Math.sqrt(num));
+  let sqrt = Math.floor(Math.sqrt(num));
 
-  while (sqrtValue > 0) {
-    const dividedBySqrt = num / sqrtValue;
-    if (Number.isInteger(dividedBySqrt)) {
-      result += dividedBySqrt;
-      if (dividedBySqrt !== sqrtValue) {
-        result += sqrtValue;
+  while (sqrt > 0) {
+    const [isInt, div] = divRem(num, sqrt); // 호이스팅
+
+    if (isInt) {
+      result += div;
+      if (div !== sqrt) {
+        result += sqrt;
       }
     }
-    sqrtValue -= 1;
+    sqrt -= 1;
   }
 
   return result;
+}
+
+function divRem(num: number, s: number): [boolean, number] {
+  const div = num / s;
+  const isInt = Number.isInteger(div);
+  return [isInt, div];
 }
 
 // console.log(solution(12)); // 28
