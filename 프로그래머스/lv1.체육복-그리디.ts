@@ -96,7 +96,7 @@ function solution3(n: number, lost: Array<number>, reserve: Array<number>) {
   for (let i = 0; i < n; i++) {
     const isLost = students[i] === 0;
     const left = i - 1;
-    const right = i - 1;
+    const right = i + 1;
 
     if (isLost && students[left] > 1) {
       students[left]--;
