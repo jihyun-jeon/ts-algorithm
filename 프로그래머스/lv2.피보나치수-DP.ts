@@ -1,0 +1,36 @@
+/**
+ * 24.11.15
+ * [Lv2] 피보나치 수
+ * https://school.programmers.co.kr/learn/courses/30/lessons/12945
+ */
+
+// < Top-Down 방식 (재귀) >
+// 중복 계산이 너무 많이 실행됨 → 시간초과 O(2ⁿ)
+function solution(n: number): number {
+  if (n < 2) {
+    return n;
+  }
+
+  return solution(n - 2) + solution(n - 1);
+}
+
+// < Bottom-Up 방식 (반복문) > O(n)
+function solution(n: number): number {
+  let memo: number[] = [];
+
+  for (let i = 0; i <= n; i++) {
+    if (i < 2) {
+      memo[i] = i;
+    } else {
+      memo[i] = (memo[i - 2] + memo[i - 1]) % 1234567;
+    }
+  }
+
+  return memo[n];
+}
+
+// console.log(solution(0)); // 0
+// console.log(solution(1)); // 1
+// console.log(solution(2)); // 1
+// console.log(solution(3)); // 2
+//  0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55 ...
