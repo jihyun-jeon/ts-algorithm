@@ -8,9 +8,9 @@ function solution(num: number) {
   let sqrt = Math.floor(Math.sqrt(num));
 
   while (sqrt > 0) {
-    const [isInt, div] = divRem(num, sqrt); // 호이스팅
+    const [div, rem] = divRem(num, sqrt);
 
-    if (isInt) {
+    if (rem === 0) {
       result += div;
       if (div !== sqrt) {
         result += sqrt;
@@ -22,10 +22,10 @@ function solution(num: number) {
   return result;
 }
 
-function divRem(num: number, s: number): [boolean, number] {
+function divRem(num: number, s: number): [number, number] {
   const div = num / s;
-  const isInt = Number.isInteger(div);
-  return [isInt, div];
+  const rem = num % s;
+  return [div, rem];
 }
 
 // console.log(solution(12)); // 28
