@@ -94,14 +94,14 @@ function solution3(n: number, lost: Array<number>, reserve: Array<number>) {
   reserve.forEach((r) => (students[r - 1] += 1));
 
   for (let i = 0; i < n; i++) {
-    const isLost = students[i] === 0;
     const left = i - 1;
     const right = i + 1;
 
-    if (isLost && students[left] > 1) {
+    if (students[i] === 0 && students[left] > 1) {
       students[left]--;
       students[i]++;
-    } else if (isLost && students[right] > 1) {
+    }
+    if (students[i] === 0 && students[right] > 1) {
       students[right]--;
       students[i]++;
     }
