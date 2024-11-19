@@ -29,6 +29,27 @@ function solution(n: number): number {
   return memo[n];
 }
 
+// < 재귀+메모이제이션 >
+function solution(n: number) {
+  const memo: number[] = [];
+
+  function fibo(i: number) {
+    if (memo[i] !== undefined) {
+      return memo[i];
+    }
+
+    if (i < 2) {
+      memo[i] = i;
+      return i;
+    }
+
+    memo[i] = (fibo(i - 1) + fibo(i - 2)) % 1234567;
+    return memo[i];
+  }
+
+  return fibo(n);
+}
+
 // console.log(solution(0)); // 0
 // console.log(solution(1)); // 1
 // console.log(solution(2)); // 1

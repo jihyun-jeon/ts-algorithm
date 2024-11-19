@@ -5,12 +5,10 @@
  */
 
 function solution(x: number): boolean {
-  let sum = 0;
-  const strArr = String(x).split("");
-
-  strArr.forEach((s) => {
-    sum += Number(s);
-  });
+  const str = String(x);
+  const strArr = str.split("");
+  const nums = strArr.map((s) => Number(s));
+  const sum = nums.reduce((acc, cur) => acc + cur, 0);
 
   return Number.isInteger(x / sum);
 }

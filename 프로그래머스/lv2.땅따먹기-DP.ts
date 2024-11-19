@@ -17,6 +17,24 @@ function solution(land: number[][]) {
   return Math.max(...land[land.length - 1]);
 }
 
+// <Array.entries 활용>
+function solution(land: number[][]) {
+  for (const [r, row] of land.entries()) {
+    if (r === 0) {
+      continue;
+    }
+
+    for (const [c, col] of row.entries()) {
+      const prev = [...land[r - 1]];
+      prev[c] = 0;
+      const prevMax = Math.max(...prev);
+      land[r][c] = col + prevMax;
+    }
+  }
+
+  return Math.max(...land.at(-1));
+}
+
 // console.log(
 //   solution([
 //     [1, 2, 3, 5],
@@ -25,10 +43,10 @@ function solution(land: number[][]) {
 //   ])
 // ); //16
 
-// console.log(
-//   solution([
-//     [1, 2, 3, 4],
-//     [1, 1, 1, 10],
-//     [2, 3, 4, 4],
-//   ])
-// ); // 17
+console.log(
+  solution([
+    [1, 2, 3, 4],
+    [1, 1, 1, 10],
+    [2, 3, 4, 4],
+  ])
+); // 17

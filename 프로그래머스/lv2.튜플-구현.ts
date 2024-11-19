@@ -5,23 +5,19 @@
  */
 
 function solution(s: any) {
-  const result: number[] = [];
-
   const str1 = s.replaceAll("{", "[");
   const str2 = str1.replaceAll("}", "]");
   const arr = JSON.parse(str2).sort(
     (a: number[], b: number[]) => a.length - b.length
   );
 
-  arr.forEach((l: number[]) => {
-    l.forEach((n) => {
-      if (!result.includes(n)) {
-        result.push(n);
-      }
-    });
-  });
+  return arr.flatMap((l: number[], idx: number) => {
+    if (idx === 0) {
+      return l[0];
+    }
 
-  return result;
+    return l.filter((n) => !arr[idx - 1].includes(n));
+  });
 }
 
 console.log(solution("{{2},{2,1},{2,1,3},{2,1,3,4}}")); // [2, 1, 3, 4];
