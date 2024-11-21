@@ -29,7 +29,7 @@ function solution(n: number): number {
   return memo[n];
 }
 
-// < 재귀+메모이제이션 >
+// < 재귀+메모이제이션 : 매모 객체 활용 >
 function solution(n: number) {
   const memo: number[] = [];
 
@@ -48,6 +48,40 @@ function solution(n: number) {
   }
 
   return fibo(n);
+}
+
+// < 재귀+메모이제이션 : 메모이제이션 함수 활용 >
+type Memoized = {
+  (key: number): number;
+  cache: { [key: number]: number };
+};
+
+function memoize(func: Function) {
+  const memoized: Memoized = (key) => {
+    if (memoized.cache[key] !== undefined) {
+      return memoized.cache[key];
+    }
+
+    const result = func(key, memoized);
+    memoized.cache[key] = result;
+    return memoized.cache[key];
+  };
+
+  memoized.cache = {};
+
+  return memoized;
+}
+
+function solution(n: number) {
+  function fibo(i: number, memoizedFn: (key: number) => number): number {
+    if (i == 0) return 0;
+    if (i == 1) return 1;
+
+    return (memoizedFn(i - 1) + memoizedFn(i - 2)) % 1234567;
+  }
+  const memoizedFibo = memoize(fibo);
+
+  return memoizedFibo(n);
 }
 
 // console.log(solution(0)); // 0
