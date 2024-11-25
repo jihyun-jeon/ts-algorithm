@@ -12,7 +12,14 @@ function solution(s: any) {
 
   const flatArr = arr.flatMap((l: number[]) => l);
 
-  return flatArr.filter((n: number, i: number) => flatArr.indexOf(n) === i);
+  const result = new Set<number>();
+
+  flatArr.forEach((n: number) => {
+    if (!result.has(n)) {
+      result.add(n);
+    }
+  });
+  return Array.from(result);
 }
 
 // console.log(solution("{{2},{2,1},{2,1,3},{2,1,3,4}}")); // [2, 1, 3, 4];

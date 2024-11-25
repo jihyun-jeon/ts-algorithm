@@ -62,7 +62,7 @@ function memoize(func: Function) {
       return memoized.cache[key];
     }
 
-    const result = func(key, memoized);
+    const result = func(key);
     memoized.cache[key] = result;
     return memoized.cache[key];
   };
@@ -72,15 +72,15 @@ function memoize(func: Function) {
   return memoized;
 }
 
+function fibo(i: number): number {
+  if (i == 0) return 0;
+  if (i == 1) return 1;
+
+  return (memoizedFibo(i - 1) + memoizedFibo(i - 2)) % 1234567;
+}
+const memoizedFibo = memoize(fibo);
+
 function solution(n: number) {
-  function fibo(i: number, memoizedFn: (key: number) => number): number {
-    if (i == 0) return 0;
-    if (i == 1) return 1;
-
-    return (memoizedFn(i - 1) + memoizedFn(i - 2)) % 1234567;
-  }
-  const memoizedFibo = memoize(fibo);
-
   return memoizedFibo(n);
 }
 
