@@ -53,35 +53,34 @@ function solution(n: number) {
 // < 재귀+메모이제이션 : 메모이제이션 함수 활용 >
 type Memoized = {
   (key: number): number;
-  cache: { [key: number]: number };
+  cache: Map<number, number>;
 };
 
 function memoize(func: Function) {
   const memoized: Memoized = (key) => {
-    if (memoized.cache[key] !== undefined) {
-      return memoized.cache[key];
+    if (memoized.cache.has(key)) {
+      return memoized.cache.get(key);
     }
 
     const result = func(key);
-    memoized.cache[key] = result;
-    return memoized.cache[key];
+    memoized.cache.set(key, result);
+    return result;
   };
 
-  memoized.cache = {};
+  memoized.cache = new Map();
 
   return memoized;
 }
 
-function fibo(i: number): number {
+const fibo = memoize(function (i: number): number {
   if (i == 0) return 0;
   if (i == 1) return 1;
 
-  return (memoizedFibo(i - 1) + memoizedFibo(i - 2)) % 1234567;
-}
-const memoizedFibo = memoize(fibo);
+  return (fibo(i - 1) + fibo(i - 2)) % 1234567;
+});
 
 function solution(n: number) {
-  return memoizedFibo(n);
+  return fibo(n);
 }
 
 // console.log(solution(0)); // 0

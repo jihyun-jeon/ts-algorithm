@@ -6,19 +6,20 @@
 
 function solution(s: any) {
   const str = s.replaceAll("{", "[").replaceAll("}", "]");
-  const arr = JSON.parse(str).sort(
+  const arr: number[][] = JSON.parse(str).sort(
     (a: number[], b: number[]) => a.length - b.length
   );
 
-  const flatArr = arr.flatMap((l: number[]) => l);
-
   const result = new Set<number>();
 
-  flatArr.forEach((n: number) => {
-    if (!result.has(n)) {
-      result.add(n);
+  for (const list of arr) {
+    for (const n of list) {
+      if (!result.has(n)) {
+        result.add(n);
+      }
     }
-  });
+  }
+
   return Array.from(result);
 }
 
