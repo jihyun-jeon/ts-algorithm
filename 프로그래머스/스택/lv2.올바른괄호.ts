@@ -9,7 +9,7 @@ function solution(s: string) {
   const signs: Record<string, string> = { ")": "(" };
 
   for (const str of s) {
-    const top = stack[stack.length - 1];
+    const top = stack.at(-1);
 
     if (stack.length > 0 && top === signs[str]) {
       stack.pop();
@@ -26,3 +26,8 @@ function solution(s: string) {
 // console.log(solution(")()(")); // false
 // console.log(solution("(()(")); // false
 // console.log(solution("))")); // false;
+
+/*
+<회고> 
+배열의 끝 요소를 찾을때 lenght-1 하는 습관 없애자!, at 활용
+*/

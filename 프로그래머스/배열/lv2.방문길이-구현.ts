@@ -5,25 +5,27 @@
  */
 
 // <나의 풀이>
-function move(d: string, x: number, y: number) {
+type Direction = "L" | "R" | "U" | "D";
+type MoveResult = {
+  x2: number;
+  y2: number;
+  reverseD: Direction;
+};
+
+function move(d: Direction, x: number, y: number): MoveResult {
   switch (d) {
     case "L":
-      x--;
-      break;
+      return { x2: x - 1, y2: y, reverseD: "R" };
 
     case "R":
-      x++;
-      break;
+      return { x2: x + 1, y2: y, reverseD: "L" };
 
     case "U":
-      y++;
-      break;
+      return { x2: x, y2: y + 1, reverseD: "D" };
 
     case "D":
-      y--;
+      return { x2: x, y2: y - 1, reverseD: "U" };
   }
-
-  return { x2: x, y2: y };
 }
 
 function solution(dirs: string) {
@@ -33,14 +35,14 @@ function solution(dirs: string) {
   let visit = new Map();
 
   for (let d of dirs) {
-    const { x2, y2 } = move(d, x, y);
+    const { x2, y2, reverseD } = move(d as Direction, x, y);
 
     if (x2 > 5 || x2 < -5 || y2 > 5 || y2 < -5) {
       continue;
     }
 
-    const path1 = `${x}${y}${x2}${y2}`;
-    const path2 = `${x2}${y2}${x}${y}`;
+    const path1 = `${x}${y}${x2}${y2}${d}`;
+    const path2 = `${x2}${y2}${x}${y}${reverseD}`;
 
     if (!visit.has(path1) && !visit.has(path2)) {
       visit.set(path1, null);

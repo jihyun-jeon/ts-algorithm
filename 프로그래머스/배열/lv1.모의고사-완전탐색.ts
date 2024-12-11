@@ -12,15 +12,15 @@ function solution(answers: number[]) {
     [3, 3, 1, 1, 2, 2, 4, 4, 5, 5],
   ];
 
-  const scores = [0, 0, 0];
-
-  for (let i = 0; i < answers.length; i++) {
-    for (let j = 0; j < persons.length; j++) {
-      if (answers[i] === persons[j][i % persons[j].length]) {
-        scores[j]++;
+  const scores = persons.map((person) => {
+    let count = 0;
+    for (let i = 0; i < answers.length; i++) {
+      if (answers[i] === person[i % person.length]) {
+        count++;
       }
     }
-  }
+    return count;
+  });
 
   const result: number[] = [];
   const maxScore = Math.max(...scores);
@@ -106,3 +106,14 @@ function solution(answers: number[]) {
  * 1 % 5 = 1  <- !!
  * 6 % 5 = 1
  */
+
+/*
+<회고> 
+- 원본을 수정하지 않는다 (불변성의 원칙)
+: 개선 전) const scores = [0, 0, 0] 으로 초기화한 뒤, for문에서 직접 수정함.
+: 기존 값을 수정하면 사이드 이펙트가 발생할 수 있고, 코드 추적이 어려워질 가능성이 있음.
+
+: 개선 후) map메서드를 사용해 새로운 scores 값을 생성하여 반환.
+: 기존 값을 수정하지 않고 새로운 값을 반환하여, 데이터가 다른 곳에서 수정될 가능성을 차단할 수 있음.
+: 상태 변화에 대한 예측 가능성이 높아져 코드의 안정성과 가독성이 개선됨.
+*/
