@@ -9,24 +9,34 @@ type Direction = "L" | "R" | "U" | "D";
 type MoveResult = {
   x2: number;
   y2: number;
-  reverseD: Direction;
 };
 
 function move(d: Direction, x: number, y: number): MoveResult {
   switch (d) {
     case "L":
-      return { x2: x - 1, y2: y, reverseD: "R" };
+      return { x2: x - 1, y2: y };
 
     case "R":
-      return { x2: x + 1, y2: y, reverseD: "L" };
+      return { x2: x + 1, y2: y };
 
     case "U":
-      return { x2: x, y2: y + 1, reverseD: "D" };
+      return { x2: x, y2: y + 1 };
 
     case "D":
-      return { x2: x, y2: y - 1, reverseD: "U" };
+      return { x2: x, y2: y - 1 };
   }
+} 
+
+function getDirection(x: number,y: number,x2: number,y2: number){
+  if(Math.abs(x - x2) === 1){
+    return 'row'
+  }
+  if(Math.abs(y - y2) === 1){
+      return 'col'
+  }
+  return ""
 }
+
 
 function solution(dirs: string) {
   let x = 0;
@@ -35,17 +45,25 @@ function solution(dirs: string) {
   let visit = new Map();
 
   for (let d of dirs) {
-    const { x2, y2, reverseD } = move(d as Direction, x, y);
+    const { x2, y2 } = move(d as Direction, x, y);
 
     if (x2 > 5 || x2 < -5 || y2 > 5 || y2 < -5) {
       continue;
     }
 
-    const path1 = `${x}${y}${x2}${y2}${d}`;
-    const path2 = `${x2}${y2}${x}${y}${reverseD}`;
+    const moveDirection = getDirection(x, y, x2, y2)
 
-    if (!visit.has(path1) && !visit.has(path2)) {
-      visit.set(path1, null);
+    if (!moveDirection) {
+      continue; // 대각선 이동시 무시
+    }
+
+    let path = 
+      x < x2 || y < y2  
+        ? `${x}${y}${x2}${y2}${moveDirection}` 
+        : `${x2}${y2}${x}${y}${moveDirection}`;
+  
+    if (!visit.has(path)) {
+      visit.set(path, null);
     }
 
     x = x2;
@@ -110,3 +128,4 @@ function solution(dirs: string) {
   역방향도 중복 경로인 것을 파악하지 못했음.
   방향을 바꾼 값도 처음부터 저장해놓는 방식하면 더 편했을듯
 */
+ 
