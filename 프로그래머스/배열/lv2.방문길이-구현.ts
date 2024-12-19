@@ -25,24 +25,31 @@ function move(d: Direction, x: number, y: number): MoveResult {
     case "D":
       return { x2: x, y2: y - 1 };
   }
-} 
-
-function getDirection(x: number,y: number,x2: number,y2: number){
-  if(Math.abs(x - x2) === 1){
-    return 'row'
-  }
-  if(Math.abs(y - y2) === 1){
-      return 'col'
-  }
-  return ""
 }
 
+function oppositeDir(d: string): Direction {
+  switch (d) {
+    case "L":
+      return "R";
+
+    case "R":
+      return "L";
+
+    case "U":
+      return "D";
+
+    case "D":
+      return "U";
+  }
+
+  throw new Error("invalid dir");
+}
 
 function solution(dirs: string) {
   let x = 0;
   let y = 0;
 
-  let visit = new Map();
+  let visit = new Set<string>();
 
   for (let d of dirs) {
     const { x2, y2 } = move(d as Direction, x, y);
@@ -51,19 +58,11 @@ function solution(dirs: string) {
       continue;
     }
 
-    const moveDirection = getDirection(x, y, x2, y2)
+    let path =
+      x < x2 || y < y2 ? `${x}${y}${d}` : `${x2}${y2}${oppositeDir(d)}`;
 
-    if (!moveDirection) {
-      continue; // 대각선 이동시 무시
-    }
-
-    let path = 
-      x < x2 || y < y2  
-        ? `${x}${y}${x2}${y2}${moveDirection}` 
-        : `${x2}${y2}${x}${y}${moveDirection}`;
-  
     if (!visit.has(path)) {
-      visit.set(path, null);
+      visit.add(path);
     }
 
     x = x2;
@@ -128,4 +127,3 @@ function solution(dirs: string) {
   역방향도 중복 경로인 것을 파악하지 못했음.
   방향을 바꾼 값도 처음부터 저장해놓는 방식하면 더 편했을듯
 */
- 
