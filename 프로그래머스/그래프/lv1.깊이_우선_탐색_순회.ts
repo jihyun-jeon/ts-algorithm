@@ -3,6 +3,7 @@
  * [lv1] dfs 탐색 - 그래프
  * 저자출제
  */
+// 깊비 우선검색 -  스택 활용
 
 type adjListType = { [key: string]: string[] };
 
