@@ -30,6 +30,9 @@ var hIndex = function (citations) {
 
 // <개선 코드>
 // 1ms Beats 77.38%
+// - 시간 복잡도: 정렬O(n log n), for문 에서 O(n) → 총 O(n log n)
+// - 공간 복잡도: 추가 메모리를 사용하지 않으므로 O(1) (제자리 정렬 활용)
+
 var hIndex = function (citations) {
   citations.sort((a, b) => b - a); // 내림차순 정렬 // [6,5,3,1,0]
 
