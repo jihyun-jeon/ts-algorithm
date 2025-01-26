@@ -3,30 +3,13 @@
  * [lv1] dfs 탐색 - 그래프
  * 저자출제
  */
-// 깊비 우선검색 -  스택 활용
+// 깊비 우선검색 -  1)재귀 활용 or 2)스택 활용
+
+/* 
+<1. 재귀 기반 DFS>
+*/
 
 type adjListType = { [key: string]: string[] };
-
-function solution(graph: string[][], start: string) {
-  // 1. 그래프를 인접 리스트로 변환
-  const adjList: adjListType = {};
-  // { A: [ 'B', 'C' ], B: [ 'D', 'E' ], C: [ 'F' ], E: [ 'F' ] }
-
-  graph.forEach(([s, e]: string[]) => {
-    if (!adjList[s]) {
-      adjList[s] = [];
-    }
-    adjList[s].push(e);
-  });
-
-  // 2.  결과를 저장할 배열, 방문 상태를 저장할 Set
-  const result: string[] = [];
-  const visited: Set<string> = new Set();
-
-  dfs(start, adjList, visited, result);
-
-  return result;
-}
 
 // 3. DFS 함수
 function dfs(
@@ -45,6 +28,68 @@ function dfs(
       dfs(node, adjList, visited, result);
     }
   });
+}
+
+function solution(graph: string[][], start: string) {
+  // 1. 그래프를 인접 리스트로 변환
+  const adjList: adjListType = {};
+  // { A: [ 'B', 'C' ], B: [ 'D', 'E' ], C: [ 'F' ], E: [ 'F' ] }
+
+  graph.forEach(([s, e]: string[]) => {
+    if (!adjList[s]) {
+      adjList[s] = [];
+    }
+    adjList[s].push(e);
+  });
+
+  const result: string[] = [];
+  const visited: Set<string> = new Set();
+
+  dfs(start, adjList, visited, result);
+
+  return result;
+}
+
+/*
+<2. 스택 기반 DFS> 
+*/
+
+type adjListType2 = { [key: string]: string[] };
+
+function solutionWithStack(graph: string[][], start: string) {
+  // 1. 그래프를 인접 리스트로 변환
+  const adjList: adjListType2 = {};
+  // { A: [ 'B', 'C' ], B: [ 'D', 'E' ], C: [ 'F' ], E: [ 'F' ] }
+
+  graph.forEach(([s, e]) => {
+    if (!adjList[s]) adjList[s] = [];
+    adjList[s].push(e);
+  });
+
+  const result: string[] = [];
+  const visited: Set<string> = new Set();
+  const stack: string[] = [start];
+
+  while (stack.length > 0) {
+    const node = stack.pop()!;
+    if (!visited.has(node)) {
+      visited.add(node);
+      result.push(node);
+
+      // 인접 노드를 스택에 추가 (역순으로 추가하면 기존 재귀와 같은 순서)
+      adjList[node]
+        ?.slice()
+        .reverse()
+        .forEach((neighbor) => {
+          if (!visited.has(neighbor)) {
+            console.log("neighbor", neighbor);
+            stack.push(neighbor);
+          }
+        });
+    }
+  }
+
+  return result;
 }
 
 // console.log(
@@ -74,9 +119,11 @@ function dfs(
 // ); // 반환값 : ['A', 'B', 'D', 'E', 'F', 'C']
 
 /*
-     / D
-  / B  
-A     \ E - F
-  \ C
-  
+    A
+   / \
+  B   C
+ / \
+D  E
+   |    
+   F
 */
