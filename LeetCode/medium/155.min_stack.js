@@ -42,6 +42,7 @@ MinStack.prototype.getMin = function () {
 
 // <개선코드>
 // 13ms  Beats 53.29%
+// 시간복잡도 O(1) , 공간복잡도 O(n)
 class MinStack {
   constructor() {
     this.mainStack = []; // 스택 데이터 저장
