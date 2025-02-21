@@ -4,6 +4,7 @@
  * https://leetcode.com/problems/generate-parentheses/description/
  * Topics : String, Dynamic Programming, Backtracking
  */
+// 정답코드 보며 이해
 
 var generateParenthesis = function (n) {
   const result = [];
